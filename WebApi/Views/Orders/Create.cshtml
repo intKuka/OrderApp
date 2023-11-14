@@ -1,0 +1,35 @@
+﻿@model Application.Commands.CreateOrderCommand.CreateOrderCommand
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="Create">
+            <div class="form-group">
+                <label class="control-label">Number</label>
+                <input name="Number" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Date</label>
+                <input name="Date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Provider Id</label>
+                <input name="ProviderId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

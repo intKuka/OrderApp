@@ -1,0 +1,41 @@
+﻿@{
+    // TODO: replace domain model with application level statement
+}
+@model Domain.Models.Order
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Order</h4>
+    <hr />
+    <form asp-action="Edit" method="post">
+        <div class="form-group">
+            <label class="control-label">Id</label>
+            <input name="Id" class="form-control" value="@Model.Id" disabled />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Number</label>
+            <input name="Number" class="form-control" value="@Model.Number" disabled />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Date</label>
+            <input name="Date" class="form-control" value="@Model.Date" disabled />
+        </div>
+        <div class="form-group">
+            <label class="control-label">Provider Id</label>
+            <input name="ProviderId" class="form-control" value="@Model.ProviderId" disabled />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    </form>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

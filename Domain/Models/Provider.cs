@@ -1,4 +1,4 @@
-﻿namespace OrdersApp.Models
+﻿namespace Domain.Models
 {
     public class Provider
     {
