@@ -8,7 +8,9 @@
 
         public decimal Quantity { get; set; }
 
-        public string Unit = null!;
+        public string Unit { get; set; } = null!;
+
+        public Order? Order { get; set; } 
     }
 }
 
