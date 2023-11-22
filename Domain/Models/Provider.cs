@@ -1,10 +1,15 @@
-﻿namespace Domain.Models
+﻿using System.ComponentModel;
+
+namespace Domain.Models
 {
     public class Provider
     {
-        public int Id { get; set; }
-
+        [DisplayName("Provider ID")]
+        public int ProviderId { get; set; }
         public string Name { get; set; } = null!;
+
+
+        public IList<Order> Orders { get; set; } = null!;
     }
 }
 

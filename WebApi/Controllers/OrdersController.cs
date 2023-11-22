@@ -1,8 +1,10 @@
-﻿using Application.Commands.CreateOrderCommand;
-using Application.Commands.DeleteOrderCommand;
-using Application.Commands.UpdateOrderCommand;
-using Application.Queries.GetAllOrdersQuery;
-using Application.Queries.GetOrderQuery;
+﻿using Application.CQRS.Orders.Commands.CreateOrder;
+using Application.CQRS.Orders.Commands.DeleteOrder;
+using Application.CQRS.Orders.Commands.UpdateOrder;
+using Application.CQRS.Orders.Queries.GetOrderCreateView;
+using Application.CQRS.Orders.Queries.GetOrderDetailsView;
+using Application.CQRS.Orders.Queries.GetOrderEditView;
+using Application.CQRS.Orders.Queries.GetOrderListView;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,9 +22,18 @@ namespace WebApi.Controllers
 
         // GET: Orders
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery]OrderListFilter filter)
         {
-            var result = await _mediator.Send(new GetAllOrdersRequest());
+            var query = new GetOrderListViewQuery(filter);
+            var result = await _mediator.Send(query);
+            return View(result);
+        }
+
+        // GET: Orders/5/Details
+        [HttpGet("{id:int}/Details")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await _mediator.Send(new GetOrderDetailsViewQuery(id));
             return View(result);
         }
 
@@ -30,53 +41,40 @@ namespace WebApi.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var result = await _mediator.Send(new GetOrderRequest(id));
-            return result == null ? 
-                RedirectToAction(nameof(Index)) : 
-                View(result);
+            var result = await _mediator.Send(new GetOrderEditViewQuery(id));
+            return View(result);
         }
 
         // GET: Orders/New
         [HttpGet("New")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = await _mediator.Send(new GetOrderCreateViewQuery());
+            return View(viewModel);
         }
 
-        // POST: Orders
+        // POST: Orders/New
         [HttpPost("New")]
-        public async Task<IActionResult> Create(CreateOrderCommand command)
+        public async Task<IActionResult> Create([FromForm]CreateOrderCommand command)
         {
             await _mediator.Send(command);
-
             return RedirectToAction(nameof(Index));
         }
 
-        // PUT: Orders/5
+        // POST: Orders/5
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Edit(int id, UpdateOrderCommand command)
-        {
-            command.Id = id;
+        public async Task<IActionResult> Edit(int id, [FromForm]UpdateOrderCommand command)
+        {   
+            command.OrderId = id;
             await _mediator.Send(command);
-            return NoContent();
+            return RedirectToAction(nameof(Details), new { id = command.OrderId });
         }
 
-        // GET: Orders/5
-        [HttpGet("{id:int}/Confirmation")]
+        // POST: Orders/5
+        [HttpPost("{id:int}/Deletion")]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new GetOrderRequest(id));
-            return result == null ?
-                RedirectToAction(nameof(Index)) :
-                View(result);
-        }
-
-        // DELETE: Orders/5
-        [HttpPost("{id:int}/Confirmation"), ActionName("Delete")]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            var command = new DeleteOrderCommand { Id = id };
-            await _mediator.Send(command);
+            await _mediator.Send(new DeleteOrderCommand(id));
             return RedirectToAction(nameof(Index));
         }
     }

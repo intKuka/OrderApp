@@ -1,16 +1,22 @@
-﻿namespace Domain.Models
+﻿using System.ComponentModel;
+using Domain.Abstractions;
+
+namespace Domain.Models
 {
-    public class Order
+    public class Order : IOrder
     {
-        public int Id { get; set; }
+        [DisplayName("Order ID")]
+        public int OrderId { get; set; }
 
         public string Number { get; set; } = null!;
 
-        public DateTimeOffset Date { get; set; }
+        public DateTime Date { get; set; }
 
+        [DisplayName("Provider")]
         public int ProviderId { get; set; }
+        public Provider Provider { get; set; } = null!;
 
-        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public IList<OrderItem> OrderItems { get; set; } = null!;
     }
 }
 

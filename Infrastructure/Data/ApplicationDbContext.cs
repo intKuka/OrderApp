@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.CQRS;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,8 +14,9 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
+        //Database.EnsureDeleted();
+        //Database.EnsureCreated();
+        Database.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,5 +47,6 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
     private static void ProviderConfigure(EntityTypeBuilder<Provider> builder)
     {
         builder.Property(p => p.Name).HasColumnType("nvarchar");
+        builder.HasData(Seeds.ProviderSeed);
     }
 }

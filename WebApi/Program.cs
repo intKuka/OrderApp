@@ -1,5 +1,5 @@
 using Application.Extensions;
-using Infrastructure;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

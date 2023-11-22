@@ -1,8 +1,11 @@
-﻿namespace Domain.Models
+﻿using System.ComponentModel;
+
+namespace Domain.Models
 {
     public class OrderItem
     {
-        public int Id { get; set; }
+        [DisplayName("Item ID")]
+        public int OrderItemId { get; set; }
 
         public string Name { get; set; } = null!;
 
@@ -10,7 +13,9 @@
 
         public string Unit { get; set; } = null!;
 
-        public Order? Order { get; set; } 
+        [DisplayName("Order ID")]
+        public int OrderId { get; set; }
+        public Order Order { get; set; } = new();
     }
 }
 

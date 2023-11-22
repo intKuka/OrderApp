@@ -1,55 +1,93 @@
-﻿@{
-    // TODO: replace domain model with application level statement
-}
-@model IEnumerable<Domain.Models.Order>
+﻿@model Application.ViewModels.Orders.OrderListViewModel
 
 @{
     ViewData["Title"] = "Orders";
 }
 
 <h1>Orders</h1>
+<hr/>
+<h4>Filter</h4>
+<form asp-action="Index" method="get">
+    <div class="row mb-2">
+        <div class="col-6">
+            <label>Date From</label>
+            <input asp-for="Filter.Date.DateFrom" class="form-control w-50 datepicker" type="date" />
+        </div>
+        <div class="col-6">
+            <label>Date To</label>
+            <input asp-for="Filter.Date.DateTo" class="form-control w-50 datepicker" type="date" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label>Numbers</label>
+        </div>
+        <div class="col-3">
+            <label>Item Names</label>
+        </div>
+        <div class="col-3">
+            <label>Item Units</label>
+        </div>
+        <div class="col-3">
+            <label>Provider Names</label>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-3 mx-0">
+            <select asp-for="Filter.SelectedOrderNumbers" asp-items="new MultiSelectList(Model.Filter.OrderNumbers, Model.Filter.SelectedOrderNumbers)" class="form-control form-control-sm dropdown" multiple></select>
+        </div>
+        <div class="col-3 mx-0">
+            <select asp-for="Filter.SelectedItemNames" asp-items="new MultiSelectList(Model.Filter.ItemNames, Model.Filter.SelectedItemNames)" class="form-control form-control-sm dropdown" multiple></select>
+        </div>
+        <div class="col-3 mx-0">
+            <select asp-for="Filter.SelectedItemUnits" asp-items="new MultiSelectList(Model.Filter.ItemUnits, Model.Filter.SelectedItemUnits)" class="form-control form-control-sm dropdown" multiple></select>
+        </div>
+        <div class="col-3 mx-0">
+            <select asp-for="Filter.SelectedProviderIds" asp-items="new MultiSelectList(Model.Filter.Providers, nameof(Model.Provider.ProviderId), nameof(Model.Provider.Name), Model.Filter.SelectedProviderIds)" class="form-control form-control-sm dropdown" multiple></select>
+        </div>
+    </div>
+    <input type="submit" value="Apply Filter"/>
+</form>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<form asp-action="Create" asp-controller="Orders" method="get">
+    <button class="btn btn-success mt-3" type="submit">Create New</button>
+</form>
+
+<table class="table" style="border-collapse: separate; border-spacing: 0 7px;">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Orders[0].OrderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Number)
+                @Html.DisplayNameFor(model => model.Orders[0].Number)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.Orders[0].Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProviderId)
+                @Html.DisplayNameFor(model => model.Orders[0].Provider)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProviderId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Orders)
+        {
+            <tr onclick="location.href='@Url.Action("Details", "Orders", new { id = item.OrderId })'" style="outline: thin solid; cursor: pointer;">
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Provider.Name)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

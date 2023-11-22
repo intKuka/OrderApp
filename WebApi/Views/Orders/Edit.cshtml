@@ -1,7 +1,4 @@
-﻿@{
-    // TODO: replace domain model with application level statement
-}
-@model Domain.Models.Order
+﻿@model Application.ViewModels.Orders.OrderEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -15,23 +12,64 @@
     <div class="col-md-4">
         <form asp-action="Edit" method="post">
             <div class="form-group">
-                <label class="control-label">Id</label>
-                <input name="Id" class="form-control" value="@Model.Id" disabled />
+                <label asp-for="Number" class="control-label"></label>
+                <input asp-for="Number" class="form-control" value="@Model.Number" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6 form-inline">
+                    <label asp-for="Date" class="control-label"></label>
+                    @{
+                        // TODO: change datepicker to display datetime
+                    }
+                    <input asp-for="Date" class="form-control datepicker" type="datetime-local" value="@Model.Date" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6 form-inline">
+                    <label asp-for="Providers" class="control-label"></label>
+                    <select asp-items="new SelectList(Model.Providers, nameof(Model.Provider.ProviderId), nameof(Model.Provider.Name), Model.Provider.ProviderId)" class="form-control form-control-sm dropdown" id="providerNameSelect" name="providerId"></select>
+                </div>
+            </div>
+
+            <h4>Order Elements</h4>
+            <hr />
+            <div class="table" id="elements">
+                @{
+                    var index = 0;
+                    @for (var i = 0; i < Model.OrderItems.Count; i++)
+                    {
+                        var itemId = $"element-{i}";
+                        <div id="@itemId" style="margin-bottom: 20px">
+                            <tr>
+                                <input asp-for="OrderItems[i].OrderItemId" type="hidden" />
+                                <input asp-for="OrderItems[i].OrderId" type="hidden" value="@Model.OrderId" />
+                                <td>
+                                    <label asp-for="OrderItems[i].Name" class="control-label"></label>
+                                    <input asp-for="OrderItems[i].Name" class="form-control" />
+                                    <span asp-validation-for="OrderItems[i].Name" class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <label asp-for="OrderItems[i].Quantity" class="control-label"></label>
+                                    <input asp-for="OrderItems[i].Quantity" class="form-control" />
+                                    <span asp-validation-for="OrderItems[i].Quantity" class="text-danger"></span>
+                                </td>
+                                <td>
+                                    <label asp-for="OrderItems[i].Unit" class="control-label"></label>
+                                    <input asp-for="OrderItems[i].Unit" class="form-control" />
+                                    <span asp-validation-for="OrderItems[i].Unit" class="text-danger"></span>
+                                </td>
+                            </tr>
+                        </div>
+                        index++;
+                    }
+                }
             </div>
             <div class="form-group">
-                <label class="control-label">Number</label>
-                <input name="Number" class="form-control" value="@Model.Number"/>
+                <input class="btn-light" id="btnAddNew" type="button" value="add new" />
+                <input id="btnRemove" type="button" value="remove" />
             </div>
             <div class="form-group">
-                <label class="control-label">Date</label>
-                <input name="Date" class="form-control" value="@Model.Date"/>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Provider Id</label>
-                <input name="ProviderId" class="form-control" value="@Model.ProviderId"/>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
+                <input asp-action="Edit" asp-controller="Orders" class="btn btn-primary" type="submit" value="Save" />
             </div>
         </form>
         
@@ -41,3 +79,9 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts
+{
+    <partial name="CreateEditForm"/>
+    <partial name="_ValidationScriptsPartial"/>
+}
