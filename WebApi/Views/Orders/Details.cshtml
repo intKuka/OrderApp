@@ -1,5 +1,15 @@
 ﻿@model Application.ViewModels.Orders.OrderDetailsViewModel
 
+@{
+    ViewData["Title"] = "Details";
+    var success = TempData["successMessage"]?.ToString();
+}
+@if (!string.IsNullOrWhiteSpace(success))
+{
+    <div class="alert alert-success">
+        <strong>Success! </strong>@success
+    </div>
+}
 <div>
     <h4>Order Details</h4>
     <a asp-action="Index">Back to List</a>

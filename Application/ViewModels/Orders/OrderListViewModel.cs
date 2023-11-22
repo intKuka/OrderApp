@@ -1,5 +1,4 @@
-﻿using Application.Common;
-using Application.CQRS.Orders.Queries.GetOrderListView;
+﻿using Application.CQRS.Orders.Queries.GetOrderListView;
 using Domain.Models;
 
 namespace Application.ViewModels.Orders;

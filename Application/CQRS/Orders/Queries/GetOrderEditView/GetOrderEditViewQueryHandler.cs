@@ -23,7 +23,7 @@ public class GetOrderEditViewQueryHandler : IRequestHandler<GetOrderEditViewQuer
 
         return new OrderEditViewModel
         {
-            OrderId = order.OrderId,
+            OrderId = order!.OrderId,
             Number = order.Number,
             Date = order.Date,
             Provider = order.Provider,

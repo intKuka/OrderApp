@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.CQRS.OrderItems.Queries.GetAllOrderItems;
 
-public class GetAllOrderItemsQueryHandler : IRequestHandler<GetAllOrderItems.GetAllOrderItemsQuery, List<OrderItem>>
+public class GetAllOrderItemsQueryHandler : IRequestHandler<GetAllOrderItemsQuery, List<OrderItem>>
 {
     private readonly IApplicationDbContext _context;
 

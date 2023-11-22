@@ -1,18 +1,13 @@
 ﻿using System.ComponentModel;
 
-namespace Domain.Models
+namespace Domain.Models;
+
+public class Provider
 {
-    public class Provider
-    {
-        [DisplayName("Provider ID")]
-        public int ProviderId { get; set; }
-        public string Name { get; set; } = null!;
+    [DisplayName("Provider ID")]
+    public int ProviderId { get; set; }
+    public string Name { get; set; } = null!;
 
 
-        public IList<Order> Orders { get; set; } = null!;
-    }
+    public IList<Order> Orders { get; set; } = null!;
 }
-
-//-Id(int)
-//- Name(nvarchar(max)) * используется для фильтрации
-
