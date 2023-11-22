@@ -41,7 +41,6 @@
             <hr />
             <div class="table" id="elements">
                 @{
-                    var index = 0;
                     @for (var i = 0; i < Model.OrderItems.Count; i++)
                     {
                         var itemId = $"element-{i}";
@@ -66,7 +65,6 @@
                                 </td>
                             </tr>
                         </div>
-                        index++;
                     }
                 }
             </div>

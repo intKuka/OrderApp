@@ -1,5 +1,4 @@
 ﻿using Application.ViewModels.Orders;
-using Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

@@ -2,7 +2,7 @@
 
 namespace Application.CQRS.Orders.Commands.DeleteOrder;
 
-public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrder.DeleteOrderCommand>
+public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand>
 {
     private readonly IApplicationDbContext _context;
 
@@ -11,9 +11,9 @@ public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrder.DeleteOrder
         _context = context;
     }
 
-    public async Task Handle(DeleteOrder.DeleteOrderCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
     {
-        var order = await _context.Orders.FindAsync(request.Id, cancellationToken);
+        var order = await _context.Orders.FindAsync(request.Id);
         if (order != null)
         {
             _context.Orders.Remove(order);
