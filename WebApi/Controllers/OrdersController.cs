@@ -57,8 +57,15 @@ namespace WebApi.Controllers
         [HttpPost("New")]
         public async Task<IActionResult> Create([FromForm]CreateOrderCommand command)
         {
-            await _mediator.Send(command);
-            return RedirectToAction(nameof(Index));
+            var result = await _mediator.Send(command);
+            if (result.IsSuccess)
+            {
+                TempData[result.Type] = result.Message;
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData[result.Type] = result.Message;
+            return RedirectToAction(nameof(Create));
         }
 
         // POST: Orders/5
@@ -66,8 +73,16 @@ namespace WebApi.Controllers
         public async Task<IActionResult> Edit(int id, [FromForm]UpdateOrderCommand command)
         {   
             command.OrderId = id;
-            await _mediator.Send(command);
-            return RedirectToAction(nameof(Details), new { id = command.OrderId });
+            var result = await _mediator.Send(command);
+            if (result.IsSuccess)
+            {
+                TempData[result.Type] = result.Message;
+                return RedirectToAction(nameof(Details), new { id = command.OrderId });
+            }
+
+            TempData[result.Type] = result.Message;
+            return RedirectToAction(nameof(Edit), new { id = command.OrderId });
+            
         }
 
         // POST: Orders/5

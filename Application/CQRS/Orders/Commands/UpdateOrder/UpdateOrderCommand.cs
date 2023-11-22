@@ -1,10 +1,11 @@
-﻿using Domain.Abstractions;
+﻿using Application.Common;
+using Domain.Abstractions;
 using Domain.Models;
 using MediatR;
 
 namespace Application.CQRS.Orders.Commands.UpdateOrder;
 
-public class UpdateOrderCommand : IRequest, IOrder
+public class UpdateOrderCommand : IRequest<ValidationResult>, IOrder
 {
     public int OrderId { get; set; }
     public string Number { get; set; } = null!;

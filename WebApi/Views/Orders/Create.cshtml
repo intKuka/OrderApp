@@ -2,10 +2,16 @@
 
 @{
     ViewData["Title"] = "Create";
+    var error = TempData["errorMessage"]?.ToString();
+}
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger">
+        <strong>Error! </strong>@error
+    </div>
 }
 
 <h1>Create</h1>
-
 <h4>Order</h4>
 <div>
     @Html.ActionLink("Back to List", "Index")
