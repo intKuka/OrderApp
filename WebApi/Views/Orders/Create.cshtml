@@ -50,9 +50,8 @@
                         </td>
                         <td>
                             <label asp-for="OrderItems[0].Quantity" class="control-label"></label>
-                            <input asp-for="OrderItems[0].Quantity" class="form-control" />
+                            <input asp-for="OrderItems[0].Quantity" class="form-control" data-val-range-min="0.001" data-val-range="Minimum value is 0.001" />
                             <span asp-validation-for="OrderItems[0].Quantity" class="text-danger"></span>
-
                         </td>
                         <td>
                             <label asp-for="OrderItems[0].Unit" class="control-label"></label>
@@ -75,6 +74,6 @@
 
 @section Scripts
 {
-    <partial name="CreateEditForm"/>
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_CreateEditFormPartial" />
+    <partial name="_ValidationScriptsPartial" />
 }

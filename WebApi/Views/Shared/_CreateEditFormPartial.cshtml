@@ -1,0 +1,27 @@
+﻿
+<script>
+    $(function() {
+        $("#btnAddNew").click(function() {
+            var count = $("#elements >div").length;
+            $("#elements").append(
+                `<div id="element-${count}" style="margin-bottom: 20px">
+                    <label class="control-label" for="OrderItems_${count}__Name">Name</label>
+                    <input class="form-control" type="text" data-val="true" data-val-required="The Name field is required." id="OrderItems_${count}__Name" name="OrderItems[${count}].Name" />
+                    <label class="control-label" for="OrderItems_${count}__Quantity">Quantity</label>
+                    <input class="form-control" type="text" data-val="true" data-val-number="The field Quantity must be a number." data-val-required="The Quantity field is required." data-val-range-min="0.001" data-val-range="Minimum value is 0.001" id="OrderItems_${count}__Quantity" name="OrderItems[${count}].Quantity" />
+                    <label class="control-label" for="OrderItems_${count}__Unit">Unit</label>
+                    <input class="form-control" type="text" data-val="true" data-val-required="The Unit field is required." id="OrderItems_${count}__Unit" name="OrderItems[${count}].Unit" />
+                </div>`
+            );
+        });
+    });
+
+    $(function() {
+        $("#btnRemove").click(function() {
+            var count = $("#elements >div").length;
+            if (count - 1 > 0) {
+                $("#element-" + (count - 1)).remove();
+            }
+        });
+    });
+</script>
