@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.CQRS.Orders.Commands.UpdateOrder;
 
-public class UpdateOrderCommand : IRequest<ValidationResult>
+public class UpdateOrderCommand : IRequest<CommandResult>
 {
     public int OrderId { get; set; }
     public string Number { get; set; } = null!;

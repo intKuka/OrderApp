@@ -60,11 +60,11 @@ namespace WebApi.Controllers
             var result = await _mediator.Send(command);
             if (result.IsSuccess)
             {
-                TempData[result.Type] = result.Message;
+                TempData[result.Key] = result.Message;
                 return RedirectToAction(nameof(Index));
             }
 
-            TempData[result.Type] = result.Message;
+            TempData[result.Key] = result.Message;
             return RedirectToAction(nameof(Create));
         }
 
@@ -76,11 +76,11 @@ namespace WebApi.Controllers
             var result = await _mediator.Send(command);
             if (result.IsSuccess)
             {
-                TempData[result.Type] = result.Message;
+                TempData[result.Key] = result.Message;
                 return RedirectToAction(nameof(Details), new { id = command.OrderId });
             }
 
-            TempData[result.Type] = result.Message;
+            TempData[result.Key] = result.Message;
             return RedirectToAction(nameof(Edit), new { id = command.OrderId });
             
         }
